@@ -68,7 +68,8 @@ export function OutQueueManager(
   maxPostBytes,
   useStm,
   maxLocalStorageQueueSize,
-  connectionTimeout
+  connectionTimeout,
+  anonymousTracking
 ) {
   var localStorageAlias = window.localStorage,
     queueName,
@@ -212,7 +213,7 @@ export function OutQueueManager(
     if (usePost) {
       var body = getBody(request);
       if (body.bytes >= maxPostBytes) {
-        warn('Event of size ' + body.bytes + ' is too long - the maximum size is ' + maxPostBytes);
+        warn('Event (' + body.bytes + 'B) too big, max is ' + maxPostBytes);
         var xhr = initializeXMLHttpRequest(configCollectorUrl);
         xhr.send(encloseInPayloadDataEnvelope(attachStmToEvent([body.evt])));
         return;
@@ -252,7 +253,7 @@ export function OutQueueManager(
 
     // Let's check that we have a Url to ping
     if (!isString(configCollectorUrl)) {
-      throw 'No Snowplow collector configured, cannot track';
+      throw 'No collector configured';
     }
 
     executingQueue = true;
@@ -262,7 +263,7 @@ export function OutQueueManager(
     if (usePost) {
       var xhr = initializeXMLHttpRequest(configCollectorUrl);
 
-      // Time out POST requests after 5 seconds
+      // Time out POST requests after connectionTimeout
       var xhrTimeout = setTimeout(function () {
         xhr.abort();
         executingQueue = false;
@@ -322,6 +323,9 @@ export function OutQueueManager(
 
         if (beaconPreflight) {
           const headers = { type: 'application/json' };
+          if (anonymousTracking) {
+            header['SP-Anonymous'] = '*';
+          }
           const blob = new Blob([encloseInPayloadDataEnvelope(attachStmToEvent(batch))], headers);
           try {
             beaconStatus = navigator.sendBeacon(configCollectorUrl, blob);
@@ -385,6 +389,9 @@ export function OutQueueManager(
     xhr.open('POST', url, true);
     xhr.withCredentials = true;
     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    if (anonymousTracking) {
+      xhr.setRequestHeader('SP-Anonymous', '*');
+    }
     return xhr;
   }
 
