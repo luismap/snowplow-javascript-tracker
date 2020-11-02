@@ -44,7 +44,7 @@
         }
         function viewProduct() {
             alert("Viewing a product");
-            snowplowTracker.trackUnstructEvent('Viewed Product',
+            snowplowTracker.trackSelfDescribingEvent('Viewed Product',
                 {
                     product_id: 'ASO01043',
                     category: 'Dresses',

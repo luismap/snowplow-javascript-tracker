@@ -125,7 +125,7 @@
 
         function viewProduct() {
             alert("Viewing a product");
-            window.snowplow_1('trackUnstructEvent', {
+            window.snowplow_1('trackSelfDescribingEvent', {
                 schema: 'iglu:com.acme_company/viewed_product/jsonschema/5-0-0',
                 data: {
                     productId: 'ASO01043',

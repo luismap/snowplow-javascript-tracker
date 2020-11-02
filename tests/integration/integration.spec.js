@@ -148,7 +148,7 @@ describe('Test that request_recorder logs meet expectations', () => {
     ).toBe(true)
   })
 
-  it('Check an unstructured event with true timestamp was sent', () => {
+  it('Check a self describing event with true timestamp was sent', () => {
     expect(
       logContains({
         event: {
@@ -285,7 +285,7 @@ describe('Test that request_recorder logs meet expectations', () => {
     ).toBe(true)
   })
 
-  it('Check an unstructured event with global context from accept ruleset', () => {
+  it('Check a self describing event with global context from accept ruleset', () => {
     expect(
       logContains({
         event: {
@@ -306,7 +306,7 @@ describe('Test that request_recorder logs meet expectations', () => {
     ).toBe(true)
   })
 
-  it('Check an unstructured event missing global context from reject ruleset', () => {
+  it('Check a self describing event missing global context from reject ruleset', () => {
     expect(
       logContains({
         event: {

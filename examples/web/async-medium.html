@@ -100,7 +100,7 @@
             alert("Viewing a product");
 
             // Only the "uri" tracker will track the Viewed Product event
-            window.new_name_here('trackUnstructEvent:uri', {
+            window.new_name_here('trackSelfDescribingEvent:uri', {
                 schema: 'iglu:com.acme_company/viewed_product/jsonschema/5-0-0',
                 data: {
                     productId: 'ASO01043',
