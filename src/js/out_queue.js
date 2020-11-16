@@ -91,12 +91,12 @@ export function OutQueueManager(
 
   // Use GET if specified
   var isGetRequested = eventMethod === 'get';
-
-  // Use POST if specified
-  var usePost = eventMethod === 'post' || useBeacon;
   
   // Don't use XhrHttpRequest for browsers which don't support CORS XMLHttpRequests (e.g. IE <= 9)
   var useXhr = Boolean(window.XMLHttpRequest && 'withCredentials' in new XMLHttpRequest());
+
+  // Use POST if specified
+  var usePost = useXhr && (eventMethod === 'post' || useBeacon);
 
   // Resolve all options and capabilities and decide path
   var path = usePost ? postPath : '/i';
@@ -372,7 +372,7 @@ export function OutQueueManager(
         executingQueue = false;
       };
 
-      image.src = createGetUrl(nextRequest)
+      image.src = createGetUrl(nextRequest);
 
       setTimeout(function () {
         if (loading && executingQueue) {
