@@ -273,6 +273,9 @@ export function OutQueueManager(
       }, connectionTimeout);
 
       function chooseHowManyToExecute(q) {
+        if (isGetRequested) {
+          return 1;
+        }
         var numberToSend = 0;
         var byteCount = 0;
         while (numberToSend < q.length) {
