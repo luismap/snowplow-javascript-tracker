@@ -96,7 +96,7 @@ export function OutQueueManager(
   var useXhr = Boolean(window.XMLHttpRequest && 'withCredentials' in new XMLHttpRequest());
 
   // Use POST if specified
-  var usePost = useXhr && (eventMethod === 'post' || useBeacon);
+  var usePost = useXhr && ((eventMethod === 'post' || useBeacon)  && !isGetRequested) ;
 
   // Resolve all options and capabilities and decide path
   var path = usePost ? postPath : '/i';
